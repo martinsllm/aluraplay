@@ -1,28 +1,5 @@
-<?php
-
-use Alura\Mvc\Repository\VideoRepository;
-
-$dbPath = __DIR__ . '/banco.sqlite';
-$pdo = new PDO("sqlite:$dbPath");
-$repository = new VideoRepository($pdo);
-$videoList = $repository->all();
-
-$sucesso = filter_input(INPUT_GET, 'sucesso', FILTER_VALIDATE_INT);
-
-?>
 
 <?php include_once 'header.php'; ?>
-
-    <?php if ($sucesso === 1): ?>
-        <div style="background-color: green; color: white; padding: 10px; text-align: center;">
-            Operação realizada com sucesso!
-        </div>
-    <?php elseif ($sucesso === 0): ?>
-        <div style="background-color: red; color: white; padding: 10px; text-align: center;">
-            Erro na operação.
-        </div>
-    <?php endif; ?>
-
     <ul class="videos__container">
         <?php foreach ($videoList as $video): ?>
         <li class="videos__item">

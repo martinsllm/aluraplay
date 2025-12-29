@@ -11,6 +11,28 @@ class VideoRepository {
 
     }
 
+    private function hydrateVideo(array $videoData): Video {
+        $video = new Video(
+            $videoData['title'],
+            $videoData['url']
+        );
+        $video->setId((int)$videoData['id']);
+        return $video;
+    }
+
+    public function find(int $id): Video {
+        try {
+            $sql = 'SELECT * FROM videos WHERE id = ?;';
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(1, $id, PDO::PARAM_INT);
+            $statement->execute();
+            $video = $statement->fetch(PDO::FETCH_ASSOC);
+            return $this->hydrateVideo($video);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Erro ao buscar o video:', $e->getMessage());
+        }
+    }
+
     public function all(): array {
         $sql = 'SELECT * FROM videos;';
         $statement = $this->pdo->query($sql);
@@ -18,11 +40,7 @@ class VideoRepository {
 
         $videos = [];
         foreach ($videoData as $videoItem) {
-            $video = new Video(
-                $videoItem['title'],
-                $videoItem['url']
-            );
-            $video->setId((int)$videoItem['id']);
+            $video = $this->hydrateVideo($videoItem);
             $videos[] = $video;
         }
         return $videos;
