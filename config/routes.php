@@ -7,4 +7,5 @@ return [
     'GET|/editar-video' => Alura\Mvc\Controller\FormController::class,
     'POST|/editar-video' => Alura\Mvc\Controller\UpdateVideoController::class,
     'GET|/remover-video' => Alura\Mvc\Controller\DeleteVideoController::class,
+    'GET|/login' => Alura\Mvc\Controller\LoginFormController::class,
 ];

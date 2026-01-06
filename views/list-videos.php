@@ -1,5 +1,4 @@
-
-<?php include_once 'header.php'; ?>
+<?php include_once __DIR__ . '/header.php'; ?>
     <ul class="videos__container">
         <?php foreach ($videoList as $video): ?>
         <li class="videos__item">
@@ -17,4 +16,4 @@
         </li>
         <?php endforeach; ?>
     </ul>
-<?php include_once 'footer.php'; ?>
+<?php include_once __DIR__ . '/footer.php'; ?>
