@@ -12,6 +12,12 @@ class VideoListController implements Controller {
     }
 
     public function handle() {
+        session_start();
+        if(!array_key_exists('logado', $_SESSION) || !$_SESSION['logado']){
+            header('Location: /login');
+            return;
+        }
+
         $videoList = $this->repository->all();
         require_once __DIR__ . '/../../views/list-videos.php';
     }
