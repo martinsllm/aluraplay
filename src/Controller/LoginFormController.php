@@ -9,6 +9,11 @@ class LoginFormController implements Controller {
     }
 
     public function handle(): void {
+        if($_SESSION['logado']) {
+            header('Location: /');
+            return;
+        }
+        
         require_once __DIR__ . '/../../views/login-form.php';
     }
 }
