@@ -33,7 +33,7 @@ $key = "$httpMethod|$pathInfo";
 if(array_key_exists($key, $routes)) {
     $controllerClass = $routes["$httpMethod|$pathInfo"];
 
-    if($routes["$httpMethod|$pathInfo"] === Alura\Mvc\Controller\LoginController::class){
+    if($isLoginRoute && $httpMethod === 'POST') {
         $controller = new LoginController($userRepository);
     } else {
         $controller = new $controllerClass($videoRepository);
