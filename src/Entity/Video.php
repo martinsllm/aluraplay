@@ -6,6 +6,7 @@ class Video {
 
     public readonly int $id;
     public readonly string $url;
+    private ?string $filePath = null;
 
     public function __construct(
         public readonly string $title,
@@ -23,6 +24,14 @@ class Video {
             throw new \InvalidArgumentException("URL inválida: $url");
         }
         $this->url = $url;
+    }
+
+    public function setFilePath(string $filePath): void {
+        $this->filePath = $filePath;
+    }
+
+    public function getFilePath(): ?string {
+        return $this->filePath;
     }
 
 }

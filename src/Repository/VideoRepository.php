@@ -48,10 +48,11 @@ class VideoRepository {
 
     public function add(Video $video): bool {
         try {
-            $sql = 'INSERT INTO videos (url, title) VALUES (?, ?);';
+            $sql = 'INSERT INTO videos (url, title, image_path) VALUES (?, ?, ?);';
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(1, $video->url);
             $statement->bindValue(2, $video->title);
+            $statement->bindValue(3, $video->getFilePath());
 
             $result = $statement->execute();
             $id = $this->pdo->lastInsertId();
@@ -72,11 +73,12 @@ class VideoRepository {
 
     public function update(Video $video): bool {
         try {
-            $sql = 'UPDATE videos SET url = ?, title = ? WHERE id = ?;';
+            $sql = 'UPDATE videos SET url = ?, title = ?, image_path = ? WHERE id = ?;';
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(1, $video->url);
             $statement->bindValue(2, $video->title);
-            $statement->bindValue(3, $video->id, PDO::PARAM_INT);
+            $statement->bindValue(3, $video->getFilePath());
+            $statement->bindValue(4, $video->id, PDO::PARAM_INT);
             return $statement->execute();
         } catch (\Exception $e) {
             throw new \RuntimeException('Erro ao atualizar o video', $e->getMessage());
