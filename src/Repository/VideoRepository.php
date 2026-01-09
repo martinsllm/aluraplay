@@ -17,6 +17,10 @@ class VideoRepository {
             $videoData['url']
         );
         $video->setId((int)$videoData['id']);
+        
+        if ($videoData['image_path'] !== null) {
+            $video->setFilePath($videoData['image_path']);
+        }
         return $video;
     }
 
@@ -73,12 +77,18 @@ class VideoRepository {
 
     public function update(Video $video): bool {
         try {
-            $sql = 'UPDATE videos SET url = ?, title = ?, image_path = ? WHERE id = ?;';
+            $updateImageSql = '';
+            if ($video->getFilePath() !== null) {
+                $updateImageSql = ', image_path = :image_path';
+            }
+            $sql = 'UPDATE videos SET url = :url, title = :title' . $updateImageSql . ' WHERE id = :id;';
             $statement = $this->pdo->prepare($sql);
-            $statement->bindValue(1, $video->url);
-            $statement->bindValue(2, $video->title);
-            $statement->bindValue(3, $video->getFilePath());
-            $statement->bindValue(4, $video->id, PDO::PARAM_INT);
+            $statement->bindValue(':url', $video->url);
+            $statement->bindValue(':title', $video->title);
+            if ($video->getFilePath() !== null) {
+                $statement->bindValue(':image_path', $video->getFilePath());
+            }
+            $statement->bindValue(':id', $video->id, PDO::PARAM_INT);
             return $statement->execute();
         } catch (\Exception $e) {
             throw new \RuntimeException('Erro ao atualizar o video', $e->getMessage());
