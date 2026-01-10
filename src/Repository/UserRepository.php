@@ -16,4 +16,11 @@ class UserRepository {
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function updatePassword(string $id, string $newHash): void {
+        $statement = $this->pdo->prepare('UPDATE users SET password = :password WHERE id = :id');
+        $statement->bindValue(':password', $newHash);
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+    }
 }

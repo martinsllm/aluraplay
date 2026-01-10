@@ -18,6 +18,10 @@ class LoginController implements Controller {
         $correctPassword = password_verify($password, $user['password'] ?? '');
 
         if($correctPassword){
+            if(password_needs_rehash($user['password'], PASSWORD_BCRYPT)) {
+                $newHash = password_hash($password, PASSWORD_BCRYPT);
+                $this->repository->updatePassword($user['id'], $newHash);
+            }
             $_SESSION['logado'] = true;
             header('Location: /');
         } else {
