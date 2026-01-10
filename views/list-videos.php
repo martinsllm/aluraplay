@@ -16,6 +16,7 @@
                 <h3><?= $video->title; ?></h3>
                 <div class="acoes-video">
                     <a href="/editar-video?id=<?= $video->id; ?>">Editar</a>
+                    <a href="/remover-imagem?id=<?= $video->id; ?>">Remover capa</a>
                     <a href="/remover-video?id=<?= $video->id; ?>">Excluir</a>
                 </div>
             </div>

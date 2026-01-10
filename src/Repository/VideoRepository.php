@@ -95,4 +95,15 @@ class VideoRepository {
         }
     }
 
+    public function removeImage(int $id): bool {
+        try {
+            $sql = 'UPDATE videos SET image_path = NULL WHERE id = ?;';
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(1, $id, PDO::PARAM_INT);
+            return $statement->execute();
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Erro ao remover a imagem do video', $e->getMessage());
+        }
+    }
+
 }
