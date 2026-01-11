@@ -12,17 +12,14 @@ class NewVideoController implements Controller {
 
     public function handle(){
         $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
-        if ($url === false) {
-            header('Location: /?sucesso=0');
-            exit();
-        }
-
         $titulo = filter_input(INPUT_POST, 'titulo');
-        if ($titulo === false) {
+
+        if ($url === false || $titulo === false) {
+            $_SESSION['erro'] = 'Preencha todos os campos corretamente.';
             header('Location: /?sucesso=0');
             exit();
         }
-
+       
         $video = new Video($titulo, $url);
         if($_FILES['image']['error'] === UPLOAD_ERR_OK) {
             move_uploaded_file(
@@ -33,7 +30,7 @@ class NewVideoController implements Controller {
         }
 
         if ($this->repository->add($video) === false) {
-            $_SESSION['erro'] = 'Erro ao salvar o video';
+            $_SESSION['erro'] = 'Erro ao salvar o video.';
             header('Location: /?sucesso=0');
         } else {
             header('Location: /?sucesso=1');

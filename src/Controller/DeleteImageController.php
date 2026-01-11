@@ -15,6 +15,12 @@ class DeleteImageController implements Controller {
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 
         $video = $this->repository->find($id);
+        if(!$video) {
+            $_SESSION['erro'] = 'Não foi possível remover a capa.';
+            header('Location: /?sucesso=0');
+            exit();
+        }
+
         $filePath = __DIR__ . '/../../public/img/uploads/' . $video->getFilePath();
 
         if ($video->getFilePath() && file_exists($filePath)) {

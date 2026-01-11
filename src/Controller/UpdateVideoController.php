@@ -18,12 +18,10 @@ class UpdateVideoController implements Controller {
         }
 
         $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
-        if ($url === false) {
-            header('Location: /?sucesso=0');
-            exit();
-        }
         $titulo = filter_input(INPUT_POST, 'titulo');
-        if ($titulo === false) {
+
+        if ($url === false || $titulo === false) {
+            $_SESSION['erro'] = 'Preencha todos os campos corretamente.';
             header('Location: /?sucesso=0');
             exit();
         }
