@@ -24,13 +24,18 @@ class VideoRepository {
         return $video;
     }
 
-    public function find(int $id): Video {
+    public function find(int $id): ?Video {
         try {
             $sql = 'SELECT * FROM videos WHERE id = ?;';
             $statement = $this->pdo->prepare($sql);
             $statement->bindValue(1, $id, PDO::PARAM_INT);
             $statement->execute();
             $video = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$video) {
+                return null;
+            }
+            
             return $this->hydrateVideo($video);
         } catch (\Exception $e) {
             throw new \RuntimeException('Erro ao buscar o video:', $e->getMessage());
@@ -69,10 +74,14 @@ class VideoRepository {
     }
 
     public function remove(int $id): bool {
-        $sql = 'DELETE FROM videos WHERE id = ?;';
-        $statement = $this->pdo->prepare($sql);
-        $statement->bindValue(1, $id, PDO::PARAM_INT);
-        return $statement->execute();
+        try {
+            $sql = 'DELETE FROM videos WHERE id = ?;';
+            $statement = $this->pdo->prepare($sql);
+            $statement->bindValue(1, $id, PDO::PARAM_INT);
+            return $statement->execute();
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Erro ao remover o video', $e->getMessage());
+        }
     }
 
     public function update(Video $video): bool {

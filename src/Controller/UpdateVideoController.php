@@ -40,6 +40,7 @@ class UpdateVideoController implements Controller {
         $video->setId($id);
 
         if ($this->repository->update($video) === false) {
+            $_SESSION['erro'] = 'Erro ao atualizar o video';
             header('Location: /?sucesso=0');
         } else {
             header('Location: /?sucesso=1');

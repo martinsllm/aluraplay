@@ -33,6 +33,7 @@ class NewVideoController implements Controller {
         }
 
         if ($this->repository->add($video) === false) {
+            $_SESSION['erro'] = 'Erro ao salvar o video';
             header('Location: /?sucesso=0');
         } else {
             header('Location: /?sucesso=1');
