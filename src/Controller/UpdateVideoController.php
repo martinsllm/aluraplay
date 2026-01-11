@@ -4,6 +4,7 @@ namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Entity\Video;
 use Alura\Mvc\Repository\VideoRepository;
+use Alura\Mvc\Service\UploadService;
 
 class UpdateVideoController implements Controller {
     public function __construct(private VideoRepository $repository) {
@@ -27,18 +28,10 @@ class UpdateVideoController implements Controller {
         }
 
         $video = new Video($titulo, $url);
-        if($_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $safeFileName = uniqid('image_') . '_' . pathinfo($_FILES['image']['name'], PATHINFO_BASENAME);
-            $finfo = new \finfo(FILEINFO_MIME_TYPE);
-            $mimeType = $finfo->file($_FILES['image']['tmp_name']);
-
-            if(str_starts_with($mimeType, 'image/')) {
-                move_uploaded_file(
-                    $_FILES['image']['tmp_name'],
-                    __DIR__ . '/../../public/img/uploads/' . $safeFileName
-                );
-                $video->setFilePath($safeFileName);
-            }   
+        
+        $uploadedFileName = UploadService::uploadFile($_FILES['image']);
+        if($uploadedFileName) {
+            $video->setFilePath($uploadedFileName);
         }
 
         $video->setId($id);
