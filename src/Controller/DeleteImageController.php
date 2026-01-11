@@ -22,6 +22,7 @@ class DeleteImageController implements Controller {
             $this->repository->removeImage($id);
             header('Location: /?sucesso=1');
         } else {
+            $_SESSION['erro'] = "Arquivo não encontrado.";
             header('Location: /?sucesso=0');
         }
     }

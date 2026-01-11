@@ -34,6 +34,23 @@ body {
     z-index: 2;
 }
 
+.alerta {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 12px 20px;
+    position: fixed;
+    top: 150px;
+    width: auto;
+    max-width: 640px;
+    min-width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    z-index: 3;
+}
+
 .logo {
     background-image: url(../img/cabecalho/Logo.png);
     background-repeat: no-repeat;
@@ -108,4 +125,30 @@ body {
         height: 100vh;
     }
 
+}
+
+@media(max-width: 640px) {
+    .alerta {
+        width: calc(100% - 40px);
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: none;
+        min-width: auto;
+        padding: 10px 16px;
+    }
+}
+
+/* Alerta dentro de um container fica em fluxo normal */
+.alerta-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.alerta-container .alerta {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: auto;
 }

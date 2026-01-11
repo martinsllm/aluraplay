@@ -23,4 +23,12 @@
         </li>
         <?php endforeach; ?>
     </ul>
+
+    <div class="alerta-container">
+        <?php if($_SERVER['REQUEST_URI'] === '/?sucesso=0'): ?>
+            <div class="alerta">
+                <?= $_SESSION['erro'] ?? 'Ocorreu um erro ao processar sua solicitação.'; unset($_SESSION['erro']); ?>
+            </div>
+        <?php endif; ?>
+    </div>
 <?php include_once __DIR__ . '/footer.php'; ?>

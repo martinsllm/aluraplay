@@ -1,7 +1,7 @@
+
 <?php include_once __DIR__ . '/header.php'; ?>
-
     <main class="container">
-
+            
         <form class="container__formulario" method="post">
             <h2 class="formulario__titulo">Efetue login</h3>
                 <div class="formulario__campo">
@@ -18,6 +18,15 @@
                 </div>
 
                 <input class="formulario__botao" type="submit" value="Entrar" />
+
+                <div class="alerta-container">
+                    <?php if($_SERVER['REQUEST_URI'] === '/login?sucesso=0'): ?>
+                        <div class="alerta">
+                            <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
+                        </div>
+                    <?php endif; ?>
+                    </div>
+                </div>
         </form>
 
     </main>
