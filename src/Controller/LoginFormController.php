@@ -2,7 +2,7 @@
 
 namespace Alura\Mvc\Controller;
 
-class LoginFormController implements Controller {
+class LoginFormController extends ControllerWithHtml {
 
     public function __construct() {
         
@@ -14,6 +14,6 @@ class LoginFormController implements Controller {
             return;
         }
         
-        require_once __DIR__ . '/../../views/login-form.php';
+        $this->renderTemplate('login-form');
     }
 }
