@@ -21,7 +21,7 @@ class FormController extends ControllerWithHtml {
             $video = $this->repository->find($id);
         }
 
-        $this->renderTemplate(
+        echo $this->renderTemplate(
             'formulario',
             ['video' => $video]
         );

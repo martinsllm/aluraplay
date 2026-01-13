@@ -13,7 +13,8 @@ class VideoListController extends ControllerWithHtml {
 
     public function handle() {
         $videoList = $this->repository->all();
-        $this->renderTemplate(
+        
+        echo $this->renderTemplate(
             'list-videos', 
             ['videoList' => $videoList]
         );
