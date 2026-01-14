@@ -4,8 +4,11 @@ namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Entity\Video;
 use Alura\Mvc\Repository\VideoRepository;
+use Alura\Mvc\Helper\FlashMessageTrait;
 
 class DeleteImageController implements Controller {
+
+    use FlashMessageTrait;
 
     public function __construct(private VideoRepository $repository){
 
@@ -16,7 +19,7 @@ class DeleteImageController implements Controller {
 
         $video = $this->repository->find($id);
         if(!$video) {
-            $_SESSION['erro'] = 'Não foi possível remover a capa.';
+            $this->addErrorMessage('Não foi possível remover a capa.');
             header('Location: /');
             exit();
         }
@@ -28,7 +31,7 @@ class DeleteImageController implements Controller {
             $this->repository->removeImage($id);
             header('Location: /');
         } else {
-            $_SESSION['erro'] = "Arquivo não encontrado.";
+            $this->addErrorMessage("Arquivo não encontrado.");
             header('Location: /');
         }
     }

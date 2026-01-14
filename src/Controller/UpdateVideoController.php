@@ -5,8 +5,11 @@ namespace Alura\Mvc\Controller;
 use Alura\Mvc\Entity\Video;
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Service\UploadService;
+use Alura\Mvc\Helper\FlashMessageTrait;
 
 class UpdateVideoController implements Controller {
+    use FlashMessageTrait;
+
     public function __construct(private VideoRepository $repository) {
         
     }
@@ -22,7 +25,7 @@ class UpdateVideoController implements Controller {
         $titulo = filter_input(INPUT_POST, 'titulo');
 
         if ($url === false || $titulo === false) {
-            $_SESSION['erro'] = 'Preencha todos os campos corretamente.';
+            $this->addErrorMessage('Preencha todos os campos corretamente.');
             header('Location: /novo-video');
             exit();
         }
@@ -37,7 +40,7 @@ class UpdateVideoController implements Controller {
         $video->setId($id);
 
         if ($this->repository->update($video) === false) {
-            $_SESSION['erro'] = 'Erro ao atualizar o video';
+            $this->addErrorMessage('Erro ao atualizar o video');
             header('Location: /novo-video');
         } else {
             header('Location: /');

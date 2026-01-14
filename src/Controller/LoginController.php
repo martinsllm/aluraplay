@@ -3,8 +3,11 @@
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Repository\UserRepository;
+use Alura\Mvc\Helper\FlashMessageTrait;
 
 class LoginController implements Controller {
+
+    use FlashMessageTrait;
 
     public function __construct(private UserRepository $repository) {
         
@@ -25,7 +28,7 @@ class LoginController implements Controller {
             $_SESSION['logado'] = true;
             header('Location: /');
         } else {
-            $_SESSION['erro'] = "Login ou senha incorretos!";
+            $this->addErrorMessage("Login ou senha incorretos!");
             header('Location: /login');
         }
     }
