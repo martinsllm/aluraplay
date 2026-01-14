@@ -2,7 +2,11 @@
 
 namespace Alura\Mvc\Controller;
 
-class LoginFormController extends ControllerWithHtml {
+use Alura\Mvc\Helper\HtmlRenderTrait;
+
+class LoginFormController {
+    
+    use HtmlRenderTrait;
 
     public function __construct() {
         
