@@ -17,7 +17,7 @@ class DeleteImageController implements Controller {
         $video = $this->repository->find($id);
         if(!$video) {
             $_SESSION['erro'] = 'Não foi possível remover a capa.';
-            header('Location: /?sucesso=0');
+            header('Location: /');
             exit();
         }
 
@@ -26,10 +26,10 @@ class DeleteImageController implements Controller {
         if ($video->getFilePath() && file_exists($filePath)) {
             unlink($filePath);
             $this->repository->removeImage($id);
-            header('Location: /?sucesso=1');
+            header('Location: /');
         } else {
             $_SESSION['erro'] = "Arquivo não encontrado.";
-            header('Location: /?sucesso=0');
+            header('Location: /');
         }
     }
 }

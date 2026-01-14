@@ -14,7 +14,7 @@ class UpdateVideoController implements Controller {
     public function handle() {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
         if ($id === false && $id === null) {
-            header('Location: /?sucesso=0');
+            header('Location: /novo-video');
             exit();
         }
 
@@ -23,7 +23,7 @@ class UpdateVideoController implements Controller {
 
         if ($url === false || $titulo === false) {
             $_SESSION['erro'] = 'Preencha todos os campos corretamente.';
-            header('Location: /?sucesso=0');
+            header('Location: /novo-video');
             exit();
         }
 
@@ -38,9 +38,9 @@ class UpdateVideoController implements Controller {
 
         if ($this->repository->update($video) === false) {
             $_SESSION['erro'] = 'Erro ao atualizar o video';
-            header('Location: /?sucesso=0');
+            header('Location: /novo-video');
         } else {
-            header('Location: /?sucesso=1');
+            header('Location: /');
         }
     }
 

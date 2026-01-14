@@ -17,7 +17,7 @@ class NewVideoController implements Controller {
 
         if ($url === false || $titulo === false) {
             $_SESSION['erro'] = 'Preencha todos os campos corretamente.';
-            header('Location: /?sucesso=0');
+            header('Location: /novo-video');
             exit();
         }
        
@@ -29,9 +29,9 @@ class NewVideoController implements Controller {
         
         if ($this->repository->add($video) === false) {
             $_SESSION['erro'] = 'Erro ao salvar o video.';
-            header('Location: /?sucesso=0');
+            header('Location: /novo-video');
         } else {
-            header('Location: /?sucesso=1');
+            header('Location: /');
         }
     }
 }

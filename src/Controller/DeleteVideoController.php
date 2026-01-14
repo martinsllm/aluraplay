@@ -17,9 +17,9 @@ class DeleteVideoController implements Controller {
 
         if (!$video || $this->repository->remove($id) === false) {
             $_SESSION['erro'] = 'Não foi possível excluir o vídeo.';
-            header('Location: /?sucesso=0');
+            header('Location: /');
         } else {
-            header('Location: /?sucesso=1');
+            header('Location: /');
         }
     }
 

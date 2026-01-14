@@ -25,7 +25,7 @@
     </ul>
 
     <div class="alerta-container">
-        <?php if($_SERVER['REQUEST_URI'] === '/?sucesso=0'): ?>
+        <?php if($_SESSION['erro']): ?>
             <div class="alerta">
                 <?= $_SESSION['erro'] ?? 'Ocorreu um erro ao processar sua solicitação.'; unset($_SESSION['erro']); ?>
             </div>

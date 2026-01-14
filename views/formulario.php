@@ -34,6 +34,14 @@
                 </div>
 
                 <input class="formulario__botao" type="submit" value="Enviar" />
+
+                <div class="alerta-container">
+                    <?php if($_SESSION['erro']): ?>
+                        <div class="alerta">
+                            <?= $_SESSION['erro'] ?? 'Ocorreu um erro ao processar sua solicitação.'; unset($_SESSION['erro']); ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
         </form>
 
     </main>

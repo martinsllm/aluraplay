@@ -20,7 +20,7 @@
                 <input class="formulario__botao" type="submit" value="Entrar" />
 
                 <div class="alerta-container">
-                    <?php if($_SERVER['REQUEST_URI'] === '/login?sucesso=0'): ?>
+                    <?php if($_SESSION['erro']): ?>
                         <div class="alerta">
                             <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
                         </div>
