@@ -21,7 +21,7 @@ class UpdateVideoController implements Controller {
         $queryParams = $request->getQueryParams();
         $id = filter_var($queryParams['id'], FILTER_SANITIZE_NUMBER_INT);
         if ($id === false && $id === null) {
-            return new Response(302, ['Location' => '/novo-video']);
+            return new Response(302, ['Location' => '/editar-video' . '?id=' . $id]);
         }
 
         $queryParsedBody = $request->getParsedBody();
@@ -31,7 +31,7 @@ class UpdateVideoController implements Controller {
 
         if ($url === false || $titulo === false) {
             $this->addErrorMessage('Preencha todos os campos corretamente.');
-            return new Response(302, ['Location' => '/novo-video']);
+            return new Response(302, ['Location' => '/editar-video' . '?id=' . $id]);
         }
 
         $video = new Video($titulo, $url);
@@ -45,7 +45,7 @@ class UpdateVideoController implements Controller {
 
         if ($this->repository->update($video) === false) {
             $this->addErrorMessage('Erro ao atualizar o video');
-            return new Response(302, ['Location' => '/novo-video']);
+            return new Response(302, ['Location' => '/editar-video' . '?id=' . $id]);
         } else {
             return new Response(302, ['Location' => '/']);
         }
