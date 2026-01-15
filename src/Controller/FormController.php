@@ -4,8 +4,11 @@ namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Helper\HtmlRenderTrait;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-class FormController {
+class FormController implements Controller {
 
     use HtmlRenderTrait;
 
@@ -13,9 +16,10 @@ class FormController {
         
     }
 
-    public function handle() {
-        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        $video = [
+    public function handle(ServerRequestInterface $request): ResponseInterface {
+        $queryParams = $request->getQueryParams();
+        $id = (int) filter_var($queryParams['id'] ?? null, FILTER_SANITIZE_NUMBER_INT);
+        $video = (object)[
             'url' => '',
             'title' => '',
         ];
@@ -24,10 +28,7 @@ class FormController {
             $video = $this->repository->find($id);
         }
 
-        echo $this->renderTemplate(
-            'formulario',
-            ['video' => $video]
-        );
+        return new Response(200, [], $this->renderTemplate('formulario', ['video' => $video]));
     }
 
 }

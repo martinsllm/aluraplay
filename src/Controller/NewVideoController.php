@@ -6,6 +6,9 @@ use Alura\Mvc\Entity\Video;
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Service\UploadService;
 use Alura\Mvc\Helper\FlashMessageTrait;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class NewVideoController implements Controller {
     use FlashMessageTrait;
@@ -14,14 +17,14 @@ class NewVideoController implements Controller {
         
     }
 
-    public function handle(){
-        $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
-        $titulo = filter_input(INPUT_POST, 'titulo');
+    public function handle(ServerRequestInterface $request): ResponseInterface {
+        $queryParsedBody = $request->getParsedBody();
+        $url = filter_var($queryParsedBody['url'], FILTER_VALIDATE_URL);
+        $titulo = filter_var($queryParsedBody['titulo'], FILTER_SANITIZE_STRING);
 
         if ($url === false || $titulo === false) {
             $this->addErrorMessage('Preencha todos os campos corretamente.');
-            header('Location: /novo-video');
-            exit();
+            return new Response(302, ['Location' => '/novo-video']);
         }
        
         $video = new Video($titulo, $url);
@@ -32,9 +35,9 @@ class NewVideoController implements Controller {
         
         if ($this->repository->add($video) === false) {
             $this->addErrorMessage('Erro ao salvar o video.');
-            header('Location: /novo-video');
+            return new Response(302, ['Location' => '/novo-video']);
         } else {
-            header('Location: /');
+            return new Response(302, ['Location' => '/']);
         }
     }
 }

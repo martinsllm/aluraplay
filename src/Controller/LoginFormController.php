@@ -3,8 +3,11 @@
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Helper\HtmlRenderTrait;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-class LoginFormController {
+class LoginFormController implements Controller {
     
     use HtmlRenderTrait;
 
@@ -12,12 +15,11 @@ class LoginFormController {
         
     }
 
-    public function handle(): void {
+    public function handle(ServerRequestInterface $request): ResponseInterface {
         if($_SESSION['logado']) {
-            header('Location: /');
-            return;
+            return new Response(302, ['Location' => '/']);
         }
-        
-        echo $this->renderTemplate('login-form');
+
+        return new Response(200, [], $this->renderTemplate('login-form'));
     }
 }

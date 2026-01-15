@@ -4,6 +4,9 @@ namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Repository\UserRepository;
 use Alura\Mvc\Helper\FlashMessageTrait;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class LoginController implements Controller {
 
@@ -13,9 +16,10 @@ class LoginController implements Controller {
         
     }
 
-    public function handle(): void {
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-        $password = filter_input(INPUT_POST, 'password');
+    public function handle(ServerRequestInterface $request): ResponseInterface {
+        $queryParsedBody = $request->getParsedBody();
+        $email = filter_var($queryParsedBody['email'], FILTER_SANITIZE_EMAIL);
+        $password = filter_var($queryParsedBody['password'], FILTER_SANITIZE_STRING);
 
         $user = $this->repository->fetchUserByEmail($email);
         $correctPassword = password_verify($password, $user['password'] ?? '');
@@ -26,10 +30,10 @@ class LoginController implements Controller {
                 $this->repository->updatePassword($user['id'], $newHash);
             }
             $_SESSION['logado'] = true;
-            header('Location: /');
+            return new Response(302, ['Location' => '/']);
         } else {
             $this->addErrorMessage("Login ou senha incorretos!");
-            header('Location: /login');
+            return new Response(302, ['Location' => '/login']);
         }
     }
 }
