@@ -6,8 +6,9 @@ use Alura\Mvc\Helper\HtmlRenderTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class LoginFormController implements Controller {
+class LoginFormController implements RequestHandlerInterface {
     
     use HtmlRenderTrait;
 

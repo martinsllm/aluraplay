@@ -8,8 +8,9 @@ use Alura\Mvc\Helper\FlashMessageTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class DeleteImageController implements Controller {
+class DeleteImageController implements RequestHandlerInterface {
 
     use FlashMessageTrait;
 

@@ -6,8 +6,9 @@ use Alura\Mvc\Repository\VideoRepository;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class JsonVideoListController implements Controller {
+class JsonVideoListController implements RequestHandlerInterface {
     public function __construct(private VideoRepository $repository) {
         
     }

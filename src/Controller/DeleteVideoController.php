@@ -8,8 +8,9 @@ use Alura\Mvc\Helper\FlashMessageTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class DeleteVideoController implements Controller {
+class DeleteVideoController implements RequestHandlerInterface {
 
     use FlashMessageTrait;
 

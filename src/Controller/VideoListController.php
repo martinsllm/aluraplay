@@ -7,8 +7,9 @@ use Alura\Mvc\Helper\HtmlRenderTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class VideoListController {
+class VideoListController implements RequestHandlerInterface {
 
     use HtmlRenderTrait;
     
