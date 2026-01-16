@@ -1,19 +1,18 @@
 <?php
 
 namespace Alura\Mvc\Service;
+use Psr\Http\Message\UploadedFileInterface;
 
 class UploadService {
-    public static function uploadFile(array $file): ?string {
-        if ($file['error'] === UPLOAD_ERR_OK) {
-            $safeFileName = uniqid('image_') . '_' . basename($file['name']);
+    public static function uploadFile(UploadedFileInterface $file): ?string {
+        if ($file->getError() === UPLOAD_ERR_OK) {
             $finfo = new \finfo(FILEINFO_MIME_TYPE);
-            $mimeType = $finfo->file($file['tmp_name']);
+            $tmpFile = $file->getStream()->getMetadata('uri');
+            $mimeType = $finfo->file($tmpFile);
 
-            if (str_starts_with($mimeType, 'image/')) {
-                move_uploaded_file(
-                    $file['tmp_name'],
-                    __DIR__ . '/../../public/img/uploads/' . $safeFileName
-                );
+            if(str_starts_with($mimeType, 'image/')){
+                $safeFileName = uniqid('image_') . '_' . basename($file->getClientFilename());
+                $file->moveTo(__DIR__ . '/../../public/img/uploads/' . $safeFileName);
                 return $safeFileName;
             }
         }

@@ -19,6 +19,8 @@ class UpdateVideoController implements Controller {
 
     public function handle(ServerRequestInterface $request): ResponseInterface {
         $queryParams = $request->getQueryParams();
+        $files = $request->getUploadedFiles();
+
         $id = filter_var($queryParams['id'], FILTER_SANITIZE_NUMBER_INT);
         if ($id === false && $id === null) {
             return new Response(302, ['Location' => '/editar-video' . '?id=' . $id]);
@@ -36,7 +38,7 @@ class UpdateVideoController implements Controller {
 
         $video = new Video($titulo, $url);
         
-        $uploadedFileName = UploadService::uploadFile($_FILES['image']);
+        $uploadedFileName = UploadService::uploadFile($files['image']);
         if($uploadedFileName) {
             $video->setFilePath($uploadedFileName);
         }
