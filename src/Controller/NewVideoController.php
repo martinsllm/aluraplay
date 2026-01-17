@@ -5,6 +5,7 @@ namespace Alura\Mvc\Controller;
 use Alura\Mvc\Entity\Video;
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Service\UploadService;
+use Alura\Mvc\Service\CsrfTokenService;
 use Alura\Mvc\Helper\FlashMessageTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -22,6 +23,13 @@ class NewVideoController implements RequestHandlerInterface {
     public function handle(ServerRequestInterface $request): ResponseInterface {
         $queryParsedBody = $request->getParsedBody();
         $files = $request->getUploadedFiles();
+
+        // Validar token CSRF
+        $csrfToken = $queryParsedBody['csrf_token'] ?? '';
+        if (!CsrfTokenService::validateToken($csrfToken)) {
+            $this->addErrorMessage('Token de segurança inválido. Tente novamente.');
+            return new Response(302, ['Location' => '/novo-video']);
+        }
 
         $url = filter_var($queryParsedBody['url'], FILTER_VALIDATE_URL);
         $titulo = filter_var($queryParsedBody['titulo'], FILTER_SANITIZE_STRING);
@@ -42,6 +50,8 @@ class NewVideoController implements RequestHandlerInterface {
             $this->addErrorMessage('Erro ao salvar o video.');
             return new Response(302, ['Location' => '/novo-video']);
         } else {
+            // Regenerar token após sucesso
+            CsrfTokenService::regenerateToken();
             return new Response(302, ['Location' => '/']);
         }
     }

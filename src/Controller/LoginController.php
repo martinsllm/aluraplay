@@ -3,6 +3,7 @@
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Repository\UserRepository;
+use Alura\Mvc\Service\CsrfTokenService;
 use Alura\Mvc\Helper\FlashMessageTrait;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -19,6 +20,14 @@ class LoginController implements RequestHandlerInterface {
 
     public function handle(ServerRequestInterface $request): ResponseInterface {
         $queryParsedBody = $request->getParsedBody();
+
+        // Validar token CSRF
+        $csrfToken = $queryParsedBody['csrf_token'] ?? '';
+        if (!CsrfTokenService::validateToken($csrfToken)) {
+            $this->addErrorMessage('Token de segurança inválido. Tente novamente.');
+            return new Response(302, ['Location' => '/login']);
+        }
+
         $email = filter_var($queryParsedBody['email'], FILTER_SANITIZE_EMAIL);
         $password = filter_var($queryParsedBody['password'], FILTER_SANITIZE_STRING);
 
@@ -31,6 +40,8 @@ class LoginController implements RequestHandlerInterface {
                 $this->repository->updatePassword($user['id'], $newHash);
             }
             $_SESSION['logado'] = true;
+            // Regenerar token após sucesso
+            CsrfTokenService::regenerateToken();
             return new Response(302, ['Location' => '/']);
         } else {
             $this->addErrorMessage("Login ou senha incorretos!");

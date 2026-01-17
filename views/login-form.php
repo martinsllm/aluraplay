@@ -1,11 +1,14 @@
 <?php
-    $this->layout('layout');
+use Alura\Mvc\Service\CsrfTokenService;
+$this->layout('layout');
+$token = CsrfTokenService::generateToken();
 ?>
 
 <main class="container">
         
     <form class="container__formulario" method="post">
         <h2 class="formulario__titulo">Efetue login</h2>
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8'); ?>" />
             <div class="formulario__campo">
                 <label class="campo__etiqueta" for="email">Email</label>
                 <input name="email" type="email" class="campo__escrita" required

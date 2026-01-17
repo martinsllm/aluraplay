@@ -1,11 +1,16 @@
 <?php
-    $this->layout('layout');
+use Alura\Mvc\Service\CsrfTokenService;
+$this->layout('layout');
+$token = CsrfTokenService::generateToken();
 ?>
 
 <main class="container">
 
     <form class="container__formulario" enctype="multipart/form-data" method="post">
         <h2 class="formulario__titulo">Envie um vídeo!</h2>
+        
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8'); ?>" />
+        
             <div class="formulario__campo">
                 <label class="campo__etiqueta" for="url">Link embed</label>
                 <input name="url"
