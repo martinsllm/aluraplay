@@ -1,9 +1,9 @@
 
-<?php include_once __DIR__ . '/header.php'; ?>
+<?php $this->insert('header'); ?>
     <main class="container">
             
         <form class="container__formulario" method="post">
-            <h2 class="formulario__titulo">Efetue login</h3>
+            <h2 class="formulario__titulo">Efetue login</h2>
                 <div class="formulario__campo">
                     <label class="campo__etiqueta" for="email">Email</label>
                     <input name="email" type="email" class="campo__escrita" required
@@ -31,4 +31,4 @@
 
     </main>
 
-<?php include_once __DIR__ . '/footer.php'; ?>
+<?php $this->insert('footer'); ?>

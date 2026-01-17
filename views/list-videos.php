@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/header.php'; ?>
+<?php $this->insert('header'); ?>
     <ul class="videos__container">
         <?php foreach ($videoList as $video): ?>
         <li class="videos__item">
@@ -31,4 +31,4 @@
             </div>
         <?php endif; ?>
     </div>
-<?php include_once __DIR__ . '/footer.php'; ?>
+<?php $this->insert('footer'); ?>

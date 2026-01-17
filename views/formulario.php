@@ -1,4 +1,4 @@
-<?php include_once __DIR__ . '/header.php'; ?>
+<?php $this->insert('header'); ?>
 
     <main class="container">
 
@@ -46,4 +46,4 @@
 
     </main>
 
-<?php include_once __DIR__ . '/footer.php'; ?>
+<?php $this->insert('footer'); ?>
