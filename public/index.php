@@ -12,12 +12,9 @@ use Alura\Mvc\Repository\UserRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dbPath = __DIR__ . '/../banco.sqlite';
-$pdo = new PDO("sqlite:$dbPath");
-$videoRepository = new VideoRepository($pdo);
-$userRepository = new UserRepository($pdo);
-
 $routes = require_once __DIR__ . '/../config/routes.php';
+$diContainer = require_once __DIR__ . '/../config/dependencies.php';
+
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 
@@ -33,12 +30,7 @@ $key = "$httpMethod|$pathInfo";
 
 if(array_key_exists($key, $routes)) {
     $controllerClass = $routes["$httpMethod|$pathInfo"];
-
-    if($isLoginRoute && $httpMethod === 'POST') {
-        $controller = new LoginController($userRepository);
-    } else {
-        $controller = new $controllerClass($videoRepository);
-    }
+    $controller = $diContainer->get($controllerClass);
 } else {
     $controller = new Error404Controller();
 }

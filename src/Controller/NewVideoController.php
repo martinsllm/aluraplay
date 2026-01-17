@@ -22,6 +22,7 @@ class NewVideoController implements RequestHandlerInterface {
     public function handle(ServerRequestInterface $request): ResponseInterface {
         $queryParsedBody = $request->getParsedBody();
         $files = $request->getUploadedFiles();
+
         $url = filter_var($queryParsedBody['url'], FILTER_VALIDATE_URL);
         $titulo = filter_var($queryParsedBody['titulo'], FILTER_SANITIZE_STRING);
 
@@ -31,6 +32,7 @@ class NewVideoController implements RequestHandlerInterface {
         }
        
         $video = new Video($titulo, $url);
+        
         $uploadedFileName = UploadService::uploadFile($files['image']);
         if($uploadedFileName) {
             $video->setFilePath($uploadedFileName);
