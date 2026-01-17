@@ -15,9 +15,7 @@
 </head>
 
 <body>
-
     <header>
-
         <nav class="cabecalho">
             <a class="logo" href="/"></a>
 
@@ -26,5 +24,10 @@
                 <a href="/logout" class="cabecalho__sair">Sair</a>
             </div>
         </nav>
-
     </header>
+
+    <?= $this->section('content'); ?>
+
+</body>
+
+</html>

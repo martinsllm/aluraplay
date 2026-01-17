@@ -1,34 +1,34 @@
+<?php
+    $this->layout('layout');
+?>
 
-<?php $this->insert('header'); ?>
-    <main class="container">
-            
-        <form class="container__formulario" method="post">
-            <h2 class="formulario__titulo">Efetue login</h2>
-                <div class="formulario__campo">
-                    <label class="campo__etiqueta" for="email">Email</label>
-                    <input name="email" type="email" class="campo__escrita" required
-                        placeholder="Digite seu email" id='email' />
-                </div>
+<main class="container">
+        
+    <form class="container__formulario" method="post">
+        <h2 class="formulario__titulo">Efetue login</h2>
+            <div class="formulario__campo">
+                <label class="campo__etiqueta" for="email">Email</label>
+                <input name="email" type="email" class="campo__escrita" required
+                    placeholder="Digite seu email" id='email' />
+            </div>
 
 
-                <div class="formulario__campo">
-                    <label class="campo__etiqueta" for="password">Senha</label>
-                    <input type="password" name="password" class="campo__escrita" required placeholder="Digite sua senha"
-                        id='password' />
-                </div>
+            <div class="formulario__campo">
+                <label class="campo__etiqueta" for="password">Senha</label>
+                <input type="password" name="password" class="campo__escrita" required placeholder="Digite sua senha"
+                    id='password' />
+            </div>
 
-                <input class="formulario__botao" type="submit" value="Entrar" />
+            <input class="formulario__botao" type="submit" value="Entrar" />
 
-                <div class="alerta-container">
-                    <?php if($_SESSION['erro']): ?>
-                        <div class="alerta">
-                            <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
-                        </div>
-                    <?php endif; ?>
+            <div class="alerta-container">
+                <?php if($_SESSION['erro']): ?>
+                    <div class="alerta">
+                        <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
                     </div>
+                <?php endif; ?>
                 </div>
-        </form>
+            </div>
+    </form>
 
-    </main>
-
-<?php $this->insert('footer'); ?>
+</main>
